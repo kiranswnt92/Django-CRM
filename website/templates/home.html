@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="col-md-6 offset-md-3 mt-5">
+
+    <!-- Display messages -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {% if message.tags == 'error' %}alert-danger{% elif message.tags == 'success' %}alert-success {% else %}alert-warning{% endif %}" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <!-- Authenticated User Greeting -->
+    {% if user.is_authenticated %}
+        <h1 class="text-center">Hello, {{ user.username }}!</h1>
+        <p class="text-center">Welcome to Django CRM.</p>
+    {% else %}
+        <!-- Login Form -->
+        <h1 class="text-center">Login</h1>
+        <form method="POST" action="{% url 'home' %}" class="mt-4">
+            {% csrf_token %}
+            <div class="mb-3">
+                <input type="text" class="form-control" name="username" placeholder="Username" required>
+            </div>
+            <div class="mb-3">
+                <input type="password" class="form-control" name="password" placeholder="Password" required>
+            </div>
+            <div class="d-grid">
+                <button type="submit" class="btn btn-secondary btn-block">Login</button>
+            </div>
+        </form>
+    {% endif %}
+
+</div>
+{% endblock %}
